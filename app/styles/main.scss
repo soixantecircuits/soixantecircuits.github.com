@@ -1,0 +1,29 @@
+@import "compass_twitter_bootstrap";
+@import "compass_twitter_bootstrap_awesome";
+@import "compass_twitter_bootstrap_responsive";
+
+.row-fluid{
+  position:relative;
+}
+
+.imageAction{
+  display:table;
+  position:absolute;
+}
+
+.hide { 
+  position: absolute; 
+  overflow: hidden; 
+  clip: rect(0 0 0 0); 
+  height: 1px; width: 1px; 
+  margin: -1px; padding: 0; border: 0; 
+}
+
+.canvasdraw{
+  border: 2px solid white;
+  display: table;
+  .cell {
+    height: auto;
+    overflow: hidden;
+  }
+}
