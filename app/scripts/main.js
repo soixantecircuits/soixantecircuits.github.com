@@ -62,22 +62,39 @@ jQuery.Topic = function(id) {
 /****************/
 /*app start here*/
 
-var vimeo_players =[];
+var vimeo_players = [];
 
-function prepareplayer(){
-  $("iframe").each(function(index,el){
+prepareplayer = function() {
+  $("iframe").each(function(index, el) {
     var iframe = $(el)[0],
-    player = $f(iframe);
+      player = $f(iframe);
 
     vimeo_players.push(player);
     // When the player is ready, add listeners for pause, finish, and playProgress
     player.addEvent('ready', function() {
-        $.Topic("vimeoLoaded").publish(player);
-        player.addEvent('play', onPlay);
-        player.addEvent('pause', onPause);
-        player.addEvent('finish', onFinish);
+      $.Topic("vimeoLoaded").publish(player);
+      player.addEvent('play', onPlay);
+      player.addEvent('pause', onPause);
+      player.addEvent('finish', onFinish);
     });
   });
+}
+
+function onPlay(id) {
+  //$("#"+id).parent().find(".mask").show();
+}
+
+
+function onPause(id) {
+  $("#" + id).parent().find(".mask").show();
+}
+
+function onFinish(id) {
+  $("#" + id).parent().find(".mask").show();
+}
+
+function onPlayProgress(data, id) {
+  //status.text(data.seconds + 's played');
 }
 
 getVimeoVideos = function(user) {
@@ -89,7 +106,7 @@ getVimeoVideos = function(user) {
     var items = [];
     $.each(data, function(key, val) {
       items.push({
-        "file": val.id,
+        "file": val.id.toString(),
         "type": "vimeo"
       });
     });
@@ -105,12 +122,12 @@ shuffle = function(o) { //v1.0
   return o;
 };
 
-findMaxZIndex = function(){
+findMaxZIndex = function() {
   var index_highest = 0;
-  $("#image").children().each(function(key, val){
+  $("#image").children().each(function(key, val) {
     var index_current = parseInt($(this).css("zIndex"), 10);
     if(index_current > index_highest) {
-        index_highest = index_current;
+      index_highest = index_current;
     }
   });
   return index_highest;
@@ -233,13 +250,16 @@ var prepareVideo = function(video) {
     var content = $.merge(imageArray, video);
     shuffle(content);
     $.Topic("videoReady").publish(content);
-}
+  }
 
 var setupImageAndVideo = function(content) {
     var target = "#image",
       alt = "Soixante circuits",
       imgId = "img",
-      steps = 0;
+      steps = 0,
+      delay = 0.5;
+      vimeoClass = "";
+
     $.each(content, function(index, el) {
       if(el.type == "image") {
         var displayElement = $('<img />').attr({
@@ -250,8 +270,9 @@ var setupImageAndVideo = function(content) {
         });
       } else {
         var displayElement = $('<iframe />').attr({
-          'id': el.id,
-          'src': "http://player.vimeo.com/video/" + el.file + "?api=1&player_id=player1",
+          'id': el.file,
+          'class': "no-events",
+          'src': "http://player.vimeo.com/video/" + el.file + "?api=1&player_id=" + el.file,
           'width': "100%",
           'height': "auto",
           "frameborder": 0,
@@ -259,38 +280,157 @@ var setupImageAndVideo = function(content) {
           'mozallowfullscreen': "",
           'allowFullScreen': ""
         });
+        vimeoClass = "vimeo";
       }
 
-      displayElement.addClass("hide");
       var container = $('<div />').attr({
-        "class": "canvasdraw"
+        "class": "canvasdraw",
+        "id": el.type + "_" + el.file.replace(".", "_")
       }),
         cell = $('<div />').attr({
-          "class": "cell"
+          "class": "cell " + vimeoClass
         });
       cell.append(displayElement);
+      if(el.type == "vimeo") {
+        var dragger = $('<div />').attr({
+          class: "mask"
+        });
+        //dragger.html('<i class="icon-play"></i>');
+        cell.append(dragger);
+      }
+      container.addClass("hide");
+
       container.append(cell);
+
       container.css({
-          'top': steps + randomFromInterval(30, 10) + "px",
-          'left': randomFromInterval(-20, 10) + "px",
-          'width': randomFromInterval(20, 40) + "%",
-          'zIndex': randomFromInterval(2, 100)
+        'top': steps + randomFromInterval(30, 10) + "px",
+        'left': randomFromInterval(-20, 10) + "px",
+        'width': randomFromInterval(20, 40) + "%",
+        'zIndex': randomFromInterval(2, 100)
       }).appendTo($(target));
+
+      TweenLite.to(container, 0, {
+        css: {
+          opacity: 0,
+        }
+      });
+
       displayElement.one('load', function() {
-        $(this).closest(".canvasdraw").fadeIn("2000").addClass("imageAction");
-        displayElement.removeClass("hide");
+        container.removeClass("hide").addClass("imageAction");
+        TweenLite.to(container, 1, {
+          css: {
+          opacity: 1,
+        },
+          delay: delay
+        });
+        delay += 0.1;
+
         steps = findLowerImageBorder();
-        steps = 0;
+        //console.log(steps);
+        //steps = 0;
       }).each(function() {
         if(this.complete) $(this).load();
       });
     });
-    $('.canvasdraw').draggable({ cursor: "move" });
-}
+    prepareplayer();
+    $('.canvasdraw').click(function() {
+      $(this).css("zIndex", findMaxZIndex() + 1);
+    })
+    if($(".mask").length > 0) {
+      $('.mask').click(function() {
+        var playerFrame = $(this).parent().find('iframe');
+        if(playerFrame.length > 0) {
+          var iframe = $(playerFrame)[0],
+            player = $f(iframe);
+          player.api('play');
+          $(this).hide();
+        }
+      });
+    }
 
+    //$('.canvasdraw').pep();
+    $('.canvasdraw').draggable({
+      start: function(e, ui) {
+        $(this).css("zIndex", findMaxZIndex() + 1);
+        dragMomentum.start(this.id, e.clientX, e.clientY, e.timeStamp);
+      },
+      stop: function(e, ui) {
+        dragMomentum.end(this.id, e.clientX, e.clientY, e.timeStamp);
+      },
+      cursor: "move",
+      delay: 100
+    });
+  }
+
+var dragMomentum = new function() {
+    var howMuch = 30; // change this for greater or lesser momentum
+    var minDrift = 6; // minimum drift after a drag move
+    var easeType = 'easeOutBack';
+
+    //  This easing type requires the plugin:  
+    //  jquery.easing.1.3.js  http://gsgd.co.uk/sandbox/jquery/easing/
+    var dXa = [0];
+    var dYa = [0];
+    var dTa = [0];
+
+    this.start = function(elemId, Xa, Ya, Ta) {
+      dXa[elemId] = Xa;
+      dYa[elemId] = Ya;
+      dTa[elemId] = Ta;
+    }; // END dragmomentum.start()
+    this.end = function(elemId, Xb, Yb, Tb) {
+      var Xa = dXa[elemId];
+      var Ya = dYa[elemId];
+      var Ta = dTa[elemId];
+      var Xc = 0;
+      var Yc = 0;
+
+      var dDist = Math.sqrt(Math.pow(Xa - Xb, 2) + Math.pow(Ya - Yb, 2));
+      var dTime = Tb - Ta;
+      var dSpeed = dDist / dTime;
+      dSpeed = Math.round(dSpeed * 100) / 100;
+
+      var distX = Math.abs(Xa - Xb);
+      var distY = Math.abs(Ya - Yb);
+
+      var dVelX = (minDrift + (Math.round(distX * dSpeed * howMuch / (distX + distY))));
+      var dVelY = (minDrift + (Math.round(distY * dSpeed * howMuch / (distX + distY))));
+
+      var position = $('#' + elemId).position();
+      var locX = position.left;
+      var locY = position.top;
+
+      if(Xa > Xb) { // we are moving left
+        //console.log("left");
+        Xc = locX - dVelX;
+      } else { //  we are moving right
+        //console.log("right");
+        Xc = locX + dVelX;
+      }
+      // console.log("x = "+Xc);
+      // console.log("dVelX = "+dVelX);
+      if(Ya > Yb) { // we are moving up
+        //console.log("up");
+        Yc = (locY - dVelY);
+      } else { // we are moving down
+        //console.log("down");
+        Yc = (locY + dVelY);
+      }
+      // console.log("y = "+Yc);
+      // console.log("dVelY = "+dVelY);
+      var newLocX = Xc + 'px';
+      var newLocY = Yc + 'px';
+
+      $('#' + elemId).animate({
+        left: newLocX,
+        top: newLocY
+      }, 700, easeType);
+
+    }; // END  dragmomentum.end()
+  }; // END dragMomentum()
 var showVideo = function(player) {
 
-}
+  }
 
 $(function() {
   $.Topic('videoDownloaded').subscribe(prepareVideo);
