@@ -22,21 +22,31 @@
         <div class="hero-unit">
             <div class="row-fluid">
                 <div class="span12">
-                    <h1>Soixante circuits</h1>
-                    <h2>Ingénierie cinétique et design d'intéraction</h2>
-
+                    <div class="row-fluid front">
+                        <div class="span12">
+                            <h1>Soixante circuits</h1>
+                            <h2>Ingénierie cinétique et design d'intéraction</h2>
+                        </div>
+                    </div>
+                    <div class="row-fluid front">
+                        <div class="btn-group" data-toggle="buttons-radio">
+                            <button data-display="speed" class="btn">J'ai pas le temps</button>
+                            <button data-display="cool" class="btn">J'aimerais en savoir plus</button>
+                            <button data-display="consciensious" class="btn">Racontez-moi toute l'histoire</button>
+                        </div>
+                    </div>
                     <div class="row-fluid main-content">
-                        <div class="span5">
-                            <p>Composé de passionnés de nouvelles technologies et de programmation informatique, Soixante circuits est un bureau de design d'interaction qui explore des expériences digitales au delà des horizons familiers des écrans de l'internet.</p>
+                        <div id="text" class="front span5">
+                            <p class="foo">Composé de passionnés de nouvelles technologies et de programmation informatique, Soixante circuits est un bureau de design d'interaction qui explore des expériences digitales au delà des horizons familiers des écrans de l'internet.</p>
                             <p>L'atelier est physiquement situé à Paris au coeur d'une pépinière créative que nous avons fondé en 2008, regroupant sous le même toit et au gré des saisons, des architectes, des graphistes, des scénographes, des photographes.</p>
                             <p>Soixante circuits conçoit et produit des expériences interactives en intégrant des logiciels maisons et du matériel électronique dans les lieux et les objets. Chaque dispositif interactif est une expérience unique pour les visiteurs et les usagers, acteurs d'une histoire dont ils sont les héros.</p>
-                            <p>Dans nos placards sont rangés des caméras, des capteurs infrarouges, des tags RFID, des tablettes tactiles, des smartphones, des contrôleurs DMX de lumères, des afficheurs à LED, des modules sans-fil, mais aussi des scies circulaires, des tournevis et des profilés d'aluminium.
-                            Notre processus de travail repose en grande partie sur la conception de prototypes. Dès qu'il y a une idée, nous descendons ces outils de nos étagères. Ces embryons d'histoire et briques technologiques constituent un corpus d'expériences possibles et prêtes à être utilisées lors de projets à échelle 1:1.</p>
-                            <p>De manière générale, l'ambition de Soixante circuits est de scénariser intelligemment une idée, des contenus, et d'assurer une expertise solide dans la production d'un site internet, d'une application mobile, d'un dispositif interactif.</p>
+                            <p>Dans nos placards sont rangés des caméras, des capteurs infrarouges, des tags RFID, des tablettes tactiles, des smartphones, des contrôleurs DMX de lumères, des afficheurs à LED, des modules sans-fil, mais aussi des scies circulaires, des tournevis et des profilés d'aluminium.</p>
+                            <p>Dès qu'il y a une idée, nous descendons ces outils de nos étagères. Ces embryons d'histoire et briques technologiques constituent un corpus d'expériences possibles et prêtes à être utilisées lors de projets à échelle 1:1. Notre processus de travail repose en grande partie sur la conception de prototypes.</p>
+                            <p>De manière générale, l'ambition de Soixante circuits est de scénariser intelligemment une idée, des contenus, et d'assurer une expertise solide dans la production d'un site internet, d'une application web, d'une app mobile, jusqu'à un dispositif interactif.</p>
                             <p>Cette activité inclue la conception et le développement d'environnement interactifs, le conseil scientifique et technique, la veille constante de nouvelles technologies et de framework de programmation, et la connexion avec un réseau d'entreprises et de freelances aux compétences connexes: menuisiers, graphistes, prototypistes, loueur de matériel audiovisuel, architectes, graphistes, designer sonore, scénographe, agenceurs.</p>
                             <p>En marge de notre activité de production, nous enrichissons notre pratique et nous répandons la bonne parole via des enseignements et des workshop dans des écoles supérieures de sciences, de design, de communication et de graphisme (CELSA - Paris Sorbonne, École Estienne, ENSCI - Les Ateliers, Université Pierre et Marie Curie).</p>
                         </div>
-                        <div id="image" class="span7">
+                        <div id="image" class="back span7">
                         </div>
                     </div>
                 </div>
@@ -77,6 +87,11 @@
     <script src="scripts/vendor/bootstrap/bootstrap-scrollspy.js"></script>
     <script src="scripts/vendor/bootstrap/bootstrap-collapse.js"></script>
     <script src="scripts/vendor/bootstrap/bootstrap-tab.js"></script>
+    <script src="scripts/vendor/froogaloop2.min.js"></script>
+    <script src="scripts/vendor/TweenMax.min.js"></script>
+    <script src="scripts/vendor/jquery.pep.js"></script>
+    <script src="scripts/vendor/jquery-ui-1.9.2.custom.min.js"></script>
+    <script src="scripts/vendor/jquery-ui-draggable-touch-support.js"></script>
     <script src="scripts/main.js"></script>
     <!-- endbuild -->
 </body>

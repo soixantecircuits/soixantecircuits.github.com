@@ -6,9 +6,32 @@
   position:relative;
 }
 
+#image{
+  position:relative;
+}
+
+.slice{
+  background: #EEE;
+  position: relative;
+  overflow: hidden;
+  margin:0px;
+  backface-visibility:hidden;
+}
+
 .imageAction{
   display:table;
   position:absolute;
+  float:right;
+}
+
+.front{
+  position:relative;
+  z-index:2000;
+}
+
+.back{
+  position:relative;
+  z-index:1;
 }
 
 .hide { 
