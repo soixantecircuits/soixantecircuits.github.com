@@ -1,0 +1,19 @@
+.btn-group{
+  display:none;
+}
+
+.poetry p{
+  float: left;
+  width: 6cm;
+}
+
+.canvasdraw{
+  float: left;
+  width: 200px !important;
+  display: block;
+  position: relative;
+}
+
+.canvasdraw img{
+  width: 100%;
+}

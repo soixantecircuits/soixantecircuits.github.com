@@ -1,6 +1,25 @@
+@import url(http://fonts.googleapis.com/css?family=Josefin+Slab:400,700);
+@import url(http://fonts.googleapis.com/css?family=Arvo:400,700,700italic);
 @import "compass_twitter_bootstrap";
 @import "compass_twitter_bootstrap_awesome";
 @import "compass_twitter_bootstrap_responsive";
+@import "compass/css3/box-shadow";
+@import "jquery-ui-1.10.0.custom.css";
+@import "initialLetter-1.0.css";
+
+
+@mixin transparent($color, $alpha) {
+  $rgba: rgba($color, $alpha);
+  $ie-hex-str: ie-hex-str($rgba);
+  background-color: transparent;
+  background-color: $rgba;
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#{$ie-hex-str},endColorstr=#{$ie-hex-str});
+  zoom: 1;
+}
+
+body{
+  background:#DAEDFF url(/images/120-40-6-monochrome.png);
+}
 
 .row-fluid{
   position:relative;
@@ -10,6 +29,35 @@
   position:relative;
 }
 
+<<<<<<< HEAD
+=======
+.mask{
+  text-align:center;
+  position: absolute;
+  @include transparent(black,0.1);
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  i{
+    font-size: 34px;
+    color: red;
+    padding-top: 50%;
+    position: absolute;
+  }
+}
+
+.cell.video{
+  background:#000;
+  width:100%;
+  height:100%;
+  iframe{
+    width:100%;
+    height:100%;
+  }
+}
+
+
+>>>>>>> production
 .slice{
   background: #EEE;
   position: relative;
@@ -19,9 +67,51 @@
 }
 
 .imageAction{
-  display:table;
+}
+
+.videoAction{
+  display:block;
   position:absolute;
   float:right;
+<<<<<<< HEAD
+=======
+  @media screen and (max-width: 576px) {
+      position:relative;
+      width:99%;
+      margin-bottom:10px;
+  }
+}
+
+.hero-unit{
+  h2, .footer{
+    font-family: 'Arvo', serif;
+    font-weight: normal;
+    padding: 0px;
+    margin: 4px 0px;
+    font-size: 12px;
+    line-height: 12px;
+  }
+  h1{
+    text-shadow: 1px 1px 1px #fff;
+    font-family: 'Arvo', serif;
+    padding: 25px 0px;
+    @media screen and (max-width: 576px) {
+      padding: 25px 0px 0px;
+    }
+    font-size: 32px;
+  }
+  background-color: transparent;
+  margin: 16px 0px;
+  padding: 0px 0px;
+  p{
+  font-family: 'Josefin Slab', serif;
+  margin-bottom: 20px;
+  @media screen and (max-width: 576px) {
+      font-size:15px;
+      line-height:18px;
+  }
+  }
+>>>>>>> production
 }
 
 .front{
@@ -29,6 +119,23 @@
   z-index:2000;
 }
 
+<<<<<<< HEAD
+=======
+.btn-group{
+  z-index:0;
+}
+
+.center {
+  @media screen and (max-width: 576px) {
+      text-align: center;
+  }
+}
+
+.logo, .menu{
+  margin-bottom:10px;
+}
+
+>>>>>>> production
 .back{
   position:relative;
   z-index:1;
@@ -42,11 +149,26 @@
   margin: -1px; padding: 0; border: 0; 
 }
 
+.poetry{
+  text-align: justify;
+}
+
 .canvasdraw{
+  .shadow{
+    @include box-shadow(black 3px 4px 9px -1px);
+  }
+  @media screen and (max-width: 576px) {
+      position:relative;
+      margin-bottom: 15px;
+  }
   border: 2px solid white;
-  display: table;
+  position: absolute;
   .cell {
-    height: auto;
+    height:auto;
     overflow: hidden;
   }
+}
+
+.ui-state-disabled,.ui-draggable-disabled,.ui-resizable-disabled {
+  opacity : 1;
 }
